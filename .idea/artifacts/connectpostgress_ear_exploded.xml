@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-ear" name="connectpostgress:ear exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/connectpostgress_ear_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="connectpostgress/javaeeApplication/javaEEApplication" />
+    </root>
+  </artifact>
+</component>
