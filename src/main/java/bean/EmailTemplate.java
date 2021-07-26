@@ -8,7 +8,25 @@ public class EmailTemplate {
     private String sender;
     private List<String> recipients;
     private List<String> cc;
+    private List<String> bcc;
+    private List<String> tags;
     private String content;
+
+    public List<String> getBcc() {
+        return bcc;
+    }
+
+    public void setBcc(List<String> bcc) {
+        this.bcc = bcc;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
 
     public List<String> getRecipients() {
         return recipients;

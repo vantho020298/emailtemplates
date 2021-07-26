@@ -23,16 +23,17 @@ public class EmailTemplateService {
     }
 
     private void addEmailTemplateToBD(EmailTemplate emailTemplate, Connection connection, PreparedStatement statement) throws SQLException {
-        String sql = "INSERT INTO email_template(id, subject, sender, content) VALUES(?,?,?,?)";
+        String sql = "INSERT INTO email_template(id, subject, sender, template, created_by) VALUES(?,?,?,?,?)";
         statement = connection.prepareStatement(sql);
         statement.setString(1, emailTemplate.getId());
         statement.setString(2, emailTemplate.getSubject());
         statement.setString(3, emailTemplate.getSender());
         statement.setString(4, emailTemplate.getContent());
+        statement.setString(5, "system");
         statement.executeUpdate();
 
         for (String recipient : emailTemplate.getRecipients()) {
-            sql = "INSERT INTO email_recipients VALUES(?,?)";
+            sql = "INSERT INTO email_template_recipients VALUES(?,?)";
             statement = connection.prepareStatement(sql);
             statement.setString(1, emailTemplate.getId());
             statement.setString(2, recipient);
@@ -40,28 +41,55 @@ public class EmailTemplateService {
         }
 
         if (emailTemplate.getCc() != null) {
-            for (String cc : emailTemplate.getCc()) {
-                sql = "INSERT INTO email_cc VALUES(?,?)";
+            for (String data : emailTemplate.getCc()) {
+                sql = "INSERT INTO email_template_cc VALUES(?,?)";
                 statement = connection.prepareStatement(sql);
                 statement.setString(1, emailTemplate.getId());
-                statement.setString(2, cc);
+                statement.setString(2, data);
+                statement.executeUpdate();
+            }
+        }
+
+        if (emailTemplate.getBcc() != null) {
+            for (String data : emailTemplate.getBcc()) {
+                sql = "INSERT INTO email_template_bcc VALUES(?,?)";
+                statement = connection.prepareStatement(sql);
+                statement.setString(1, emailTemplate.getId());
+                statement.setString(2, data);
+                statement.executeUpdate();
+            }
+        }
+
+        if (emailTemplate.getTags() != null) {
+            for (String data : emailTemplate.getTags()) {
+                sql = "INSERT INTO email_template_tags VALUES(?,?)";
+                statement = connection.prepareStatement(sql);
+                statement.setString(1, emailTemplate.getId());
+                statement.setString(2, data);
                 statement.executeUpdate();
             }
         }
     }
 
     private void removeEmailTemplatesInDB(Connection connection, PreparedStatement statement) throws SQLException {
-        String sql = "DELETE FROM email_cc";
+        String sql = "DELETE FROM email_template_cc";
         statement = connection.prepareStatement(sql);
         statement.executeUpdate();
 
-        sql = "DELETE FROM email_recipients";
+        sql = "DELETE FROM email_template_bcc";
+        statement = connection.prepareStatement(sql);
+        statement.executeUpdate();
+
+        sql = "DELETE FROM email_template_tags";
+        statement = connection.prepareStatement(sql);
+        statement.executeUpdate();
+
+        sql = "DELETE FROM email_template_recipients";
         statement = connection.prepareStatement(sql);
         statement.executeUpdate();
 
         sql = "DELETE FROM email_template";
         statement = connection.prepareStatement(sql);
         statement.executeUpdate();
-
     }
 }

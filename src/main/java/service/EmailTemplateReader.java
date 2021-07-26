@@ -15,8 +15,8 @@ import java.util.List;
 
 public class EmailTemplateReader {
 
-    public List<EmailTemplate> getListEmailTemplate() {
-        File folder = new File("C:\\Users\\USER\\Desktop\\ahihi");
+    public List<EmailTemplate> getListEmailTemplate(String path) {
+        File folder = new File(path);
         File[] listOfFiles = folder.listFiles();
         JSONParser jsonParser = new JSONParser();
         List<EmailTemplate> emailTemplates = new ArrayList<EmailTemplate>();
@@ -50,11 +50,13 @@ public class EmailTemplateReader {
         emailTemplate.setSender((String) employee.get("sender"));
         emailTemplate.setRecipients((List<String>) employee.get("recipients"));
         emailTemplate.setCc((List<String>) employee.get("cc"));
+        emailTemplate.setCc((List<String>) employee.get("bc"));
+        emailTemplate.setCc((List<String>) employee.get("tags"));
         emailTemplate.setContent(content);
         return emailTemplate;
     }
 
     private String getFileNameHtml(File file, String id) {
-        return file.getParent().concat("\\").concat(id).concat(".html");
+        return file.getParent().concat("/").concat(id).concat(".html");
     }
 }
