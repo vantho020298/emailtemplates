@@ -50,8 +50,8 @@ public class EmailTemplateReader {
         emailTemplate.setSender((String) employee.get("sender"));
         emailTemplate.setRecipients((List<String>) employee.get("recipients"));
         emailTemplate.setCc((List<String>) employee.get("cc"));
-        emailTemplate.setCc((List<String>) employee.get("bc"));
-        emailTemplate.setCc((List<String>) employee.get("tags"));
+        emailTemplate.setBcc((List<String>) employee.get("bcc"));
+        emailTemplate.setTags((List<String>) employee.get("tags"));
         emailTemplate.setContent(content);
         return emailTemplate;
     }
